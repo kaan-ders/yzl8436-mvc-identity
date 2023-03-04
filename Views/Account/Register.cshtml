@@ -1,0 +1,38 @@
+﻿@{
+}
+
+@model RegisterModel
+
+@if (string.IsNullOrWhiteSpace(ViewBag.Hata) == false)
+{
+    <div class="alert alert-danger" role="alert">
+        @ViewBag.Hata
+    </div>
+}
+
+<div class="row">
+    <div class="col-md-offset-3 col-md-5">
+        <h2>Kaydol</h2>
+        <form id="registerForm" method="post">
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <div class="mb-3">
+                <label class="form-label">Adı Soyadı</label>
+                <input type="text" class="form-control" asp-for="AdiSoyadi">
+            </div>
+            <div class="mb-3">
+                <label class="form-label">E-posta adresi</label>
+                <input type="email" class="form-control" asp-for="Email">
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Şifre</label>
+                <input type="password" class="form-control" asp-for="Sifre">
+            </div>
+            <button type="submit" class="btn btn-primary">Kaydol</button>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+    <script src="/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+}
