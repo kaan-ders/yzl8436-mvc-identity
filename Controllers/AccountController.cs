@@ -2,6 +2,7 @@
 using Identity.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.Data;
 
 namespace Identity.Controllers
 {
@@ -9,11 +10,14 @@ namespace Identity.Controllers
     {
         private readonly SignInManager<Kullanici> _signInManager;
         private readonly UserManager<Kullanici> _userManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
 
-        public AccountController(SignInManager<Kullanici> signInManager, UserManager<Kullanici> userManager)
+        public AccountController(SignInManager<Kullanici> signInManager, 
+            UserManager<Kullanici> userManager, RoleManager<IdentityRole> roleManager)
         {
             _signInManager = signInManager;
             _userManager = userManager;
+            _roleManager = roleManager;
         }
 
         [HttpGet]
@@ -71,6 +75,7 @@ namespace Identity.Controllers
                 var result = _userManager.CreateAsync(kullanici, model.Sifre).Result;
                 if(result.Succeeded)
                 {
+                    var res = _userManager.AddToRoleAsync(kullanici, model.Role).Result;
                     return RedirectToAction("Login");
                 }
                 else
@@ -81,6 +86,15 @@ namespace Identity.Controllers
             }
 
             return View();
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> AddRole()
+        {
+            await _roleManager.CreateAsync(new IdentityRole("SatisTemsilcisi"));
+            await _roleManager.CreateAsync(new IdentityRole("Finans"));
+
+            return RedirectToAction("Index");
         }
     }
 }

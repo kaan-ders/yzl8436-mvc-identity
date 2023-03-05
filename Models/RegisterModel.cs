@@ -12,5 +12,8 @@ namespace Identity.Models
 
         [Required]
         public string Sifre { get; set; }
+
+        [Required]
+        public string Role { get; set; }
     }
 }
